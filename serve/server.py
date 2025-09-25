@@ -23,6 +23,11 @@ def run_serve():
                                 f"接收到{data.decode('utf-8')}了")
                     conn.sendall(push_msg.encode('utf-8'))
 
+def start_server():
+    while True:
+        run_serve()
 
+def stop_serve():
+    pass
 if __name__ == '__main__':
-    run_serve()
+    start_server()

@@ -13,14 +13,15 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform, QKeyEvent)
 from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QPushButton,
                                QSizePolicy, QTextBrowser, QTextEdit, QWidget, QMainWindow)
 import sys
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent, Signal, Slot
 import client
+from chatAI.serve import server
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
@@ -101,6 +102,10 @@ class chat_ui(QMainWindow, Ui_Form):
         # 对按键进行事件绑定
         self.pubtn.clicked.connect(self.show_msg)
 
+    def keyPressEvent(self, event: QKeyEvent):
+        key = event.key()
+        if key == Qt.Key_Return:
+            self.show_msg()
 
     def show_msg(self):
         msg = self.messageEdit.toPlainText().strip()
@@ -113,6 +118,7 @@ class chat_ui(QMainWindow, Ui_Form):
             self.getmessage.append(rev_msg)
         else:
             self.messageEdit.clear()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
