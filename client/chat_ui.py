@@ -109,10 +109,10 @@ class chat_ui(QMainWindow, Ui_Form):
 
     def show_msg(self):
         msg = self.messageEdit.toPlainText().strip()
-        rev_msg = client.run_client(msg)
         msg = 'user:' + msg
         self.getmessage.append(msg)
         self.messageEdit.clear()
+        rev_msg = client.run_client(msg)
 
         if rev_msg:
             self.getmessage.append(rev_msg)
@@ -125,6 +125,9 @@ if __name__ == '__main__':
     window = chat_ui()
     window.show()
     sys.exit(app.exec_())
+
+
+
 
 
 
