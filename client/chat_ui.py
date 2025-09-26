@@ -129,12 +129,16 @@ def start_app():
     sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
+def main():
     server_thread = threading.Thread(target=start_server, daemon=True)
     chat_thead = threading.Thread(target=start_app)
     server_thread.start()
     chat_thead.start()
     server_thread.join()
+
+
+if __name__ == '__main__':
+    main()
 
 
 
