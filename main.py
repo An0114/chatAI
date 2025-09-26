@@ -1,4 +1,4 @@
-from client.chat_ui import main
+from chatAI.chat_ui import main
 
 if __name__ == '__main__':
     main()

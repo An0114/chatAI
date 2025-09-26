@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QPushButton,
                                QTextBrowser, QTextEdit, QWidget, QMainWindow)
 
 import client
-from chatAI.serve.server import start_server
+from serve.server import start_server
 import time
 import threading
 
