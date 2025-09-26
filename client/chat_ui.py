@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
 
 ################################################################################
 ## Form generated from reading UI file 'chatui.ui'
@@ -9,19 +8,21 @@ import sys
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-                           QFont, QFontDatabase, QGradient, QIcon,
-                           QImage, QKeySequence, QLinearGradient, QPainter,
-                           QPalette, QPixmap, QRadialGradient, QTransform, QKeyEvent)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QPushButton,
-                               QSizePolicy, QTextBrowser, QTextEdit, QWidget, QMainWindow)
 import sys
-from PySide6.QtCore import Qt, QEvent, Signal, Slot
+
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect,
+                            QSize)
+from PySide6.QtCore import Qt
+from PySide6.QtGui import (QFont, QIcon,
+                           QKeyEvent)
+from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QPushButton,
+                               QTextBrowser, QTextEdit, QWidget, QMainWindow)
+
 import client
-from chatAI.serve import server
+from chatAI.serve.server import start_server
+import time
+import threading
+
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
@@ -98,6 +99,7 @@ class chat_ui(QMainWindow, Ui_Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        # start_serve()
 
         # 对按键进行事件绑定
         self.pubtn.clicked.connect(self.show_msg)
@@ -120,11 +122,22 @@ class chat_ui(QMainWindow, Ui_Form):
             self.messageEdit.clear()
 
 
-if __name__ == '__main__':
+def start_app():
     app = QApplication(sys.argv)
     window = chat_ui()
     window.show()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    server_thread = threading.Thread(target=start_server, daemon=True)
+    chat_thead = threading.Thread(target=start_app)
+    server_thread.start()
+    chat_thead.start()
+    server_thread.join()
+
+
+
 
 
 

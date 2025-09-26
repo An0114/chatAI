@@ -3,6 +3,7 @@ import os
 import time
 from openai import OpenAI
 
+
 api_key = os.getenv("DASHSCOPE_DEEPSEEK_API_KEY")
 url = "https://api.deepseek.com"
 client = OpenAI(api_key=api_key, base_url=url)
@@ -26,6 +27,7 @@ def run_serve():
         s.bind((Host, port))
         s.listen(5)
         conn, addr = s.accept()
+        print("启动成功")
         with conn:
             conn_msg = (f"Connected by: {addr}"
                         f"{s.getsockname()}"
@@ -37,7 +39,7 @@ def run_serve():
                     print("客户主动断开连接")
                     break
                 else:
-                    data = data.decode('utf-8')
+                    data = data.decode('utf-8', errors='ignore')
                     data = get_message(data)
                     push_msg = (f"An:{data}")
                     conn.sendall(push_msg.encode('utf-8'))
